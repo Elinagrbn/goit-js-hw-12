@@ -11,7 +11,7 @@ import {
   showLoadMoreButton,
   hideLoadMoreButton,
   scrollPage,
-} from './render-functions.js';
+} from './js/render-functions.js';
 
 const form = document.querySelector('.form');
 const loadMoreBtn = document.querySelector('.load-more');
