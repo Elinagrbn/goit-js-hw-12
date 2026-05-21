@@ -3,6 +3,7 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const gallery = document.querySelector('.gallery');
 const loader = document.querySelector('.loader');
+const loadMoreBtn = document.querySelector('.load-more');
 
 const lightbox = new SimpleLightbox('.gallery a', {
   captionsData: 'alt',
@@ -11,13 +12,12 @@ const lightbox = new SimpleLightbox('.gallery a', {
 
 export function createGallery(images) {
   const markup = images
-    .map(
-      image => `
+    .map(image => {
+      return `
 <li class="gallery-item">
 <a href="${image.largeImageURL}">
 <img src="${image.webformatURL}" alt="${image.tags}" />
 </a>
-
 <div class="info">
 <p><b>Likes</b><br>${image.likes}</p>
 <p><b>Views</b><br>${image.views}</p>
@@ -25,8 +25,8 @@ export function createGallery(images) {
 <p><b>Downloads</b><br>${image.downloads}</p>
 </div>
 </li>
-`
-    )
+`;
+    })
     .join('');
 
   gallery.insertAdjacentHTML('beforeend', markup);
@@ -43,4 +43,25 @@ export function showLoader() {
 
 export function hideLoader() {
   loader.classList.add('hidden');
+}
+
+export function showLoadMoreButton() {
+  loadMoreBtn.classList.remove('hidden');
+}
+
+export function hideLoadMoreButton() {
+  loadMoreBtn.classList.add('hidden');
+}
+
+export function scrollPage() {
+  const card = document.querySelector('.gallery-item');
+
+  if (!card) return;
+
+  const cardHeight = card.getBoundingClientRect().height;
+
+  window.scrollBy({
+    top: cardHeight * 2,
+    behavior: 'smooth',
+  });
 }
