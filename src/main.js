@@ -53,9 +53,13 @@ async function onSearch(event) {
     totalPages = Math.ceil(data.totalHits / 15);
 
     createGallery(data.hits);
-
     if (page < totalPages) {
       showLoadMoreButton();
+    } else {
+      iziToast.info({
+        message: "We're sorry, but you've reached the end of search results.",
+        position: 'topRight',
+      });
     }
   } catch (error) {
     iziToast.error({
@@ -80,7 +84,6 @@ async function onLoadMore() {
     const data = await getImagesByQuery(currentQuery, page);
 
     createGallery(data.hits);
-    scrollPage();
 
     if (page >= totalPages) {
       hideLoadMoreButton();
@@ -92,6 +95,14 @@ async function onLoadMore() {
 
       return;
     }
+    const card = document.querySelector('.gallery-item');
+
+    const cardHeight = card.getBoundingClientRect().height;
+
+    window.scrollBy({
+      top: cardHeight * 2,
+      behavior: 'smooth',
+    });
 
     showLoadMoreButton();
   } catch (error) {
